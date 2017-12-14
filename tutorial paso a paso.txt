@@ -1,0 +1,166 @@
+tutorial paso a paso de un prollecto web con api rest 
+comando de creasion de un projecto
+composer create-project laravel/laravel [nombre projecto]
+comando ejecutado
+composer create-project laravel/laravel nuevo
+puede fallar si la coneccion a internet en inestable 
+borrar projecto y comensar con comando otra vez 
+comando para levantar el servidor local mediante artisan
+importante lo cocuparemos mas adelante mucho
+php artisan serve
+comando para modo mantenimiento 
+php artisan down
+comando para salir de modo mantenimiento
+php artisan up
+Puede personalizar la plantilla predeterminada del modo de mantenimiento definiendo su propia plantilla en .resources/views/errors/503.blade.php
+Estructura de directorios
+La estructura predeterminada de la aplicación Laravel está destinada a proporcionar un excelente punto de partida para aplicaciones tanto grandes como pequeñas. Por supuesto, puedes organizar tu aplicación como quieras. Laravel casi no impone restricciones sobre dónde se encuentra una clase determinada, siempre que Composer pueda autocargar la clase.
+
+¿Dónde está el directorio de modelos?
+
+Al comenzar con Laravel, muchos desarrolladores se sienten confundidos por la falta de un  modelsdirectorio. Sin embargo, la falta de dicho directorio es intencional. Encontramos la palabra "modelos" ambigua, ya que significa muchas cosas diferentes para muchas personas diferentes. Algunos desarrolladores se refieren al "modelo" de una aplicación como la totalidad de toda su lógica comercial, mientras que otros se refieren a "modelos" como clases que interactúan con una base de datos relacional.
+
+Por este motivo, elegimos colocar modelos Eloquent en el app directorio de forma predeterminada, y permitimos que el desarrollador los coloque en otro lugar si así lo desean.
+
+El Directorio app
+
+El app directorio, como era de esperar, contiene el código central de su aplicación. Exploraremos este directorio con más detalle pronto; sin embargo, casi todas las clases en su aplicación estarán en este directorio.
+
+El Directorio database
+
+El database directorio contiene su migración de base de datos y semillas. Si lo desea, también puede usar este directorio para mantener una base de datos SQLite.
+
+El directorio routes
+
+El routes directorio contiene todas las definiciones de ruta para su aplicación. Por defecto, varios archivos de ruta se incluyen con laravel: , , y .web.php api.php console.php channels.php
+
+El archivo contiene rutas que los lugares en el grupo de middleware, que proporciona el estado de la sesión, la protección CSRF y el cifrado de cookies. Si su aplicación no ofrece una API RESTful sin estado, probablemente todas sus rutas estarán definidas en el archivo.web.php RouteServiceProviderwebweb.php
+
+El archivo contiene rutas que los lugares en el grupo de middleware, que proporciona limitación de velocidad. Estas rutas están destinadas a ser apátridas, por lo que las solicitudes que ingresan a la aplicación a través de estas rutas están destinadas a ser autenticadas mediante tokens y no tendrán acceso al estado de la sesión.api.php RouteServiceProviderapi
+
+El archivo es donde puede definir todos sus comandos de consola basados ​​en Closure. Cada cierre está vinculado a una instancia de comando que permite un enfoque simple para interactuar con los métodos IO de cada comando. Aunque este archivo no define rutas HTTP, define los puntos de entrada (rutas) basados ​​en la consola en su aplicación.console.php
+
+El archivo es donde puede registrar todos los canales de transmisión de eventos que admite su aplicación.channels.php
+
+El Directorio de aplicaciones
+
+La mayoría de su aplicación se encuentra en el appdirectorio. De forma predeterminada, este directorio tiene el espacio de nombres debajo Appy Composer lo carga automáticamente utilizando el estándar de autocarga PSR-4 .
+
+El appdirectorio contiene una variedad de directorios adicionales, tales como Console, Http, y  Providers. Piense en los directorios Consoley en Httpque proporcionan una API en el núcleo de su aplicación. El protocolo HTTP y CLI son ambos mecanismos para interactuar con su aplicación, pero en realidad no contienen lógica de aplicación. En otras palabras, son simplemente dos formas de emitir comandos a su aplicación. El Consoledirectorio contiene todos sus comandos de Artisan, mientras que el Httpdirectorio contiene sus controladores, middleware y solicitudes.
+
+Se generarán una variedad de otros directorios dentro del appdirectorio mientras usa los  makecomandos de Artisan para generar clases. Entonces, por ejemplo, el directorio no existirá hasta que ejecute el comando Artisan para generar una clase de trabajo.app/Jobsmake:job
+
+Muchas de las clases en el appdirectorio pueden ser generadas por Artisan a través de comandos. Para revisar los comandos disponibles, ejecute el $ php artisan list make comando en su terminal.
+
+$ php artisan list make
+salida 
+Usage:
+  command [options] [arguments]
+
+Options:
+  -h, --help            Display this help message
+  -q, --quiet           Do not output any message
+  -V, --version         Display this application version
+      --ansi            Force ANSI output
+      --no-ansi         Disable ANSI output
+  -n, --no-interaction  Do not ask any interactive question
+      --env[=ENV]       The environment the command should run under
+  -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
+Available commands for the "make" namespace:
+  make:auth          Scaffold basic login and registration views and routes
+  make:command       Create a new Artisan command
+  make:controller    Create a new controller class
+  make:event         Create a new event class
+  make:job           Create a new job class
+  make:listener      Create a new event listener class
+  make:mail          Create a new email class
+  make:middleware    Create a new middleware class
+  make:migration     Create a new migration file
+  make:model         Create a new Eloquent model class
+  make:notification  Create a new notification class
+  make:policy        Create a new policy class
+  make:provider      Create a new service provider class
+  make:request       Create a new form request class
+  make:seeder        Create a new seeder class
+  make:test          Create a new test class
+
+-------------------inicio login---------------------------------------------------------------
+  autentificacion del modelo user (se crea por defecto )
+  adicional mente tenemos que incorporar tymon/jwt-auth a nuestro projecto para poder crear una autentificacion
+  incorporamos en composer.json dentro de la lista identificada como "require"  
+  "require": {
+  ...
+    "tymon/jwt-auth": "0.5.*"
+  }
+  Luego corre composer update en tu terminal para tirar de él.
+  composer update
+  esto puede demorar
+  al terminar 
+  incorpor alias y provedor jwt-auth
+  Abra config / app.php , encuentre la matriz de proveedores y agregue el proveedor jwt-auth:
+  'providers' => [
+  	Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
+  ]
+Encuentre la matriz de alias y agregue las fachadas jwt-auth:
+'aliases' => [
+...
+  'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+  'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
+]
+También necesitamos publicar los activos para este paquete
+ejecutar ejecutamos 
+php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\JWTAuthServiceProvider"
+Después de ejecutar este comando, verá un nuevo archivo en la carpeta config llamado jwt.php . Este archivo contiene configuraciones para jwt-auth, una de las cuales debemos cambiar de inmediato. Necesitamos generar una clave secreta, desde la línea de comando, ejecutar:
+php artisan jwt:generate
+esto creara una clave para jwt
+lo siguiente es registrar el middleware de jwt
+Registre el middleware jwt.auth y jwt.refresh en la aplicación / http / Kernel.php
+protected $routeMiddleware = [
+...
+    'jwt.auth' => \Tymon\JWTAuth\Middleware\GetUserFromToken::class,
+    'jwt.refresh' => \Tymon\JWTAuth\Middleware\RefreshToken::class,
+];
+//no me convense el como funciona o deve funcionar esto en mi caso solo el admin hace todo y los usuarios ven nada mas de momento investigar mas y mas probable mente discutir con hoch :
+luego tenemos que generar las rutas para la api de nuestra api rest en routes/api.php
+<?php
+Route::post('register', 'AuthController@register');
+Route::post('login', 'AuthController@login');
+Route::post('recover', 'AuthController@recover');
+Route::group(['middleware' => ['jwt.auth']], function() {
+    Route::get('logout', 'AuthController@logout');
+    Route::get('test', function(){
+        return response()->json(['foo'=>'bar']);
+    });
+});
+generamos rutas para web que usaremos como test en routes/web.php
+<?php
+Route::get('user/verify/{verification_code}', 'AuthController@verifyUser');
+Route::get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
+Route::post('password/reset', 'Auth\PasswordController@reset');
+al difinir las rutas podemos ver que consisten en un metodo en este caso get y post que resiven 2 parametros el primero es la ruta que tendra en la api y el segundo el controlador mas un @ y el metodo que inboca para responder a la peticion 
+
+
+----------------------------------------------------------------------------------
+  en laravel para manejar la base de datos tenemos que y nuestras tablas se emplean 4 componentes que emplearemos las migraciones los modelos y los controladores 
+  empesamos creando una migracion donde definiremos los datos de creacion para nuestra nueva tabla en este caso tablaroll que generara la tabla de roles para los usuarios 
+  php artisan make:migration tablaroll
+  para estableser los datos que llebara nuestra tabla en este caso un id y una descripcion 
+  dentro de nuestra migracion encontraremos un run y un down, en run deveremos creear la siguiente estructura :
+  Schema::create([nombre tabla], function (Blueprint $table) {
+            $table->[instrucion]([nombre columna]);
+                     
+        });
+  en este caso de para la tabla roll quedaria asi:
+  Schema::create('roll', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('descripcion');
+        });
+  y en down iria esta estructura :
+   Schema::dropIfExists([nombre tabla]);
+  en este caso quedaria asi:
+   Schema::dropIfExists('roll'); 
+   realizar acciones para crear nuestra entidad  
+   ---------------------fin nesesario para login-------------------------
+   ---------------------fin crud usuarios para admin---------------------
+   ---------------------fin crud entidad que menejaremos y mostraremos---

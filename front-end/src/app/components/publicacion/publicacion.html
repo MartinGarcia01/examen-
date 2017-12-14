@@ -1,0 +1,20 @@
+<div layout="row" layout-align="center start">
+  <h1>publicaciones</h1>
+</div>
+
+<div layout layout-wrap>
+  <md-card md-colors="{background: 'blue-900'}" flex="30" flex-xs="100" ng-repeat="publicacion in vm.publicacions">
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">{{ publicacion.titulo }}</span>
+      </md-card-title-text>
+    </md-card-title>
+    <md-card-content>
+      <p>descripcion: {{ publicacion.descripcion }}</p>
+    </md-card-content>
+    <md-card-actions layout="row" layout-align="start center">
+      <md-button class="md-raised">Ver Publicacion</md-button>
+    </md-card-actions>
+  </md-card>
+
+</div>

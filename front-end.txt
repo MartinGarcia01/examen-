@@ -1,0 +1,38 @@
+creamos un projecto con yoman
+ejecutamos comando 
+$ yo
+salida:
+? 'Allo
+
+
+
+
+
+! What would you like to do? Fountain Webapp
+
+Make sure you are in the directory you want to scaffold into.
+This generator can also be run with: yo fountain-webapp
+
+
+     _-----_
+    |       |    ╭──────────────────────────╮
+    |--(o)--|    │    Welcome to Yeoman,    │
+   `---------´   │   ladies and gentlemen!  │
+    ( _´U`_ )    ╰──────────────────────────╯
+    /___A___\   /
+     |  ~  |
+   __'.___.'__
+ ´   `  |° ´ Y `
+
+Out of the box I include by default Gulp 4, ESLint, Browsersync and Karma.
+
+? Which JavaScript framework do you want? Angular 1
+? Which module management do you want? None with Bower and script injection
+? Which JS preprocessor do you want? Pure old JavaScript
+? Which CSS preprocessor do you want? CSS
+? Which Continuous Integration platform do you want?
+? Do you want a sample app? A working landing page
+? Would you like a router? Angular UI Router
+---fin salida---------------------------------------------------------
+la configuracion usada es para crear uan web-app landing page con ui-router y angularjs
+ 
